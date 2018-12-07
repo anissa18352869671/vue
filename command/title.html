@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.taskCreate {
+				width: 100%;
+				background: #fff;
+				border: 1px solid rgba(233, 233, 233, 1);
+				border-left: none;
+				padding: 15px 30px;
+				box-sizing: border-box;
+			}
+			
+			.taskCreate-nav {
+				list-style: none;
+				color: rgba(0, 0, 0, 0.427450980392157);
+				font-size: 14px;
+			}
+			
+			.taskCreate-nav>div {
+				display: inline-block;
+			}
+			
+			.taskCreate-nav>div.active {
+				color: rgba(0, 0, 0, 0.647058823529412);
+			}
+			
+			.taskCreate-nav div:not(:last-child):after {
+				content: '/';
+				margin: 5px;
+			}
+			
+			.taskCreate-list {
+				height: 87px;
+				line-height: 87px;
+				position: relative;
+			}
+			
+			.taskCreate-list>span {
+				font-family: 'Microsoft Tai Le Negreta', 'Microsoft Tai Le Normal', 'Microsoft Tai Le';
+				font-weight: 700;
+				font-size: 20px;
+				color: rgba(0, 0, 0, 0.847058823529412);
+				line-height: 28px;
+			}
+			
+			.task-list {
+				display: flex;
+				height: 100%;
+				font-size: 16px;
+				color: rgba(0, 0, 0, 0.447058823529412);
+				margin-left: 10px;
+				position: absolute;
+				top: 0;
+				left: 90px;
+				right: 0;
+			}
+			
+			.task-list div {
+				display: inline-block;
+				flex-grow: 1;
+			}
+			
+			.task-list>div:not(:last-child):after {
+				content: ' —— ';
+				color: #E8E8E8;
+			}
+			
+			.task-list>div>span {
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				line-height: 32px;
+				border-radius: 50%;
+				text-align: center;
+				vertical-align: middle;
+				border: 1px solid rgba(233, 233, 233, 1);
+				color: rgba(0, 0, 0, 0.247058823529412);
+				font-size: 16px;
+				margin: 0 5px;
+			}
+			
+			.task-list>div.active>span {
+				background: rgba(24, 144, 255, 1);
+				color: #FFFFFF;
+			}
+			
+			.task-list>div.checked>span {
+				border: 1px solid #108EE9;
+				color: #108EE9;
+			}
+			
+			.task-list>div.checked>div {
+				color: rgba(0, 0, 0, 0.847058823529412);
+			}
+			
+			.task-list>div.checked>span img {
+				vertical-align: inherit;
+				display: inline-block;
+			}
+			
+			.task-list>div.checked>span div {
+				display: none;
+			}
+			
+			.task-list>div.active>div {
+				color: rgba(0, 0, 0, 0.847058823529412);
+				font-family: 'Microsoft Tai Le Negreta', 'Microsoft Tai Le Normal', 'Microsoft Tai Le';
+				font-weight: 700;
+			}
+			
+			.task-list .yes {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="taskCreate">
+			<div class="taskCreate-nav">
+				<div>安保任务</div>
+				<div class="active">创建任务</div>
+			</div>
+			<div class="taskCreate-list">
+				<span>创建任务</span>
+				<div class="task-list">
+				</div>
+
+			</div>
+		</div>
+		<button type="button" class="prev-step">上一步</button>
+		<button type="button" class="next-step">下一步</button>
+
+		<script src="js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				$.ajax({
+					type: "get",
+					url: "data/list.json",
+					async: true,
+					success: function(res) {
+						let list = res.list;
+						for(let i = 0; i < list.length; i++) {
+							let j = i + 1;
+							$(".task-list").append("<div><span><img class='yes' src='img/yes.png' width='16' height='16'/><div>" + j + "</div></span><div>" + list[i].name + "</div></div>");
+						};
+
+						$(".task-list>div:first-child").addClass("active");
+					}
+				});
+
+				//点击切换创建任务进程
+				$(document).on("click", ".next-step", function() {
+					$(".task-list>div.active").removeClass("active").next().addClass("active");
+					$(".task-list>div.active").prevAll().addClass("checked");
+					//					$(".checked span div").css({"display":"none"});
+
+				});
+
+				$(document).on("click", ".prev-step", function() {
+					$(".task-list>div.active").removeClass("active").prev().addClass("active").removeClass("checked");
+					$(".task-list>div.active").prevAll().addClass("checked");
+				});
+			}
+		</script>
+	</body>
+
+</html>
