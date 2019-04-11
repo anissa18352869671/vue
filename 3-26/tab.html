@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <tabs v-model="activeKey" @on-click="doSomeThing">
+            <pane :closable='false' label="标签一" name="1">
+                11111
+            </pane>
+            <pane :closable='true' label="标签二" name="2">
+                22222
+            </pane>
+            <pane :closable='true' label="标签三" name="3">
+                33333
+            </pane>
+        </tabs>
+    </div>
+    <script src="../vue.js"></script>
+    <script src="pane.js"></script>
+    <script src="tab.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                activeKey: '2'
+            },
+            methods: {
+                doSomeThing: function () {
+                    console.log(1)
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

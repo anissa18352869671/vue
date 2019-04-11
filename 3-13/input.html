@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for="(item,index) in list">
+            <input type="checkbox" v-model="checked" :index='index' :disabled="item.disabled" :value="item.value" :data="item.data"
+                @click="handleInput" />
+            <label for="">{{item.text}}</label>
+        </div>
+
+        <!-- <input type="checkbox" v-model="checked" value="a" :data-value="1" @click="handleInput" />
+        <label for="">操作系统模板</label><br>
+        <input type="checkbox" v-model="checked" value="b" :data-value="0" @click="handleInput" />
+        <label for="">网络设备模板</label><br>
+        <input type="checkbox" v-model="checked" value="c" :data-value="0" @click="handleInput" />
+        <label for="">安全设备模板</label><br>
+        <input type="checkbox" v-model="checked" value="d" :data-value="0" @click="handleInput" />
+        <label for="">虚拟化模板</label><br>
+        <input type="checkbox" v-model="checked" value="e" :data-value="1" @click="handleInput($event)" />
+        <label for="">数据库模板</label><br> -->
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                checked: [],
+                list: [{
+                    value: 'a',
+                    data: 'normal',
+                    text: '操作系统模板',
+                    disabled: false
+                }, {
+                    value: 'b',
+                    data: 'unnormal',
+                    text: '网络设备模板',
+                    disabled: false
+                }, {
+                    value: 'c',
+                    data: 'unnormal',
+                    text: '安全设备模板',
+                    disabled: false
+                }, {
+                    value: 'd',
+                    data: 'unnormal',
+                    text: '虚拟化模板',
+                    disabled: false
+                }, {
+                    value: 'e',
+                    data: 'normal',
+                    text: '数据库模板',
+                    disabled: false
+                }]
+            },
+            methods: {
+                handleInput: function (e) {
+                    // this.message = e.target.value;
+                    let value = e.toElement.value;
+                    let data = e.toElement.attributes[2].nodeValue;
+                    let index = e.toElement.attributes[1].nodeValue;
+                    if (this.checked.length == 0) {
+                        if (data == 'normal') {
+                            for (let i = 0; i < this.list.length; i++) {
+                                if (this.list[i].data == "unnormal") {
+                                    this.list[i].disabled = true;
+                                }
+                            }
+                        } else {
+                            for (let i = 0; i < this.list.length; i++) {
+                                this.list[i].disabled = true;
+                            }
+                            this.list[index].disabled = false;
+                        }
+                    } else if (this.checked.length == 1) {
+                        if (this.checked == "a" && value == "a" || this.checked == "e" && value == "e" ||
+                            data == "unnormal") {
+                            for (let i = 0; i < this.list.length; i++) {
+                                this.list[i].disabled = false;
+                            }
+                        }
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <p v-if="show">
+            文本
+        </p>
+        <!-- <button v-on:click="handleClose">点击隐藏</button> -->
+
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                show: true
+            },
+            methods: {
+                init: function (text) {
+                    console.log(text)
+                }
+            },
+            //内部调用
+            mounted: function () {
+                this.init('lalalal');
+            },
+        })
+
+        //外部调用
+        app.init('wai');
+    </script>
+</body>
+
+</html>
