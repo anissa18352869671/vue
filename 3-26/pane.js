@@ -37,11 +37,4 @@ Vue.component('pane', {
     mounted() {
         this.updateNav();
     },
-    beforeDestroy() {
-        // console.log(1)
-        // console.log(this)
-        if (this.closable) {
-            // console.log(this)
-        }
-    },
 })

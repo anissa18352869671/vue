@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>WebApp</title>
+</head>
+
+<body>
+    <div id="app">
+        <questionnaire :questions="questions" @submit="handleSubmit"></questionnaire>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="questionnaire.js"></script>
+    <script src="questions.js"></script>
+    <script src="mybutton.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                questions: [{
+                        type: "radio",
+                        title: "你的性别",
+                        choices: ["男", "女"],
+                        picked: ""
+                    },
+                    {
+                        type: "multi",
+                        title: "你的爱好",
+                        choices: ['篮球', '足球', '羽毛球'],
+                        picked: []
+                    },
+                    {
+                        type: "typetext",
+                        title: "自我介绍",
+                        text: ""
+                    }
+                ]
+            },
+            methods: {
+                handleSubmit: function (e) {
+                    var text = "";
+                    text += "你是" + e[0].picked + "的\n";
+                    text += "你喜欢" + e[1].picked.join("和") + "\n";
+                    text += "你说'" + e[2].text + "'\n";
+                    alert(text);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
