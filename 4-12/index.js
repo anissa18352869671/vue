@@ -1,19 +1,18 @@
 var app = new Vue({
     el: "#app",
     data: {
-        status: 1,
         questions: [{
             type: "radio",
             title: '请问您的性别是',
             choices: ['男', '女'],
             picked: ""
-        },{
+        }, {
             type: "checkbox",
             title: '请问您的兴趣爱好是',
-            choices: ['看书', '游泳','跑步','看电影','听音乐'],
+            choices: ['看书', '游泳', '跑步', '看电影', '听音乐'],
             picked: []
-        },{
-            type: "textarea",
+        }, {
+            type: "typetext",
             title: '请介绍一下自己',
             text: ""
         }]
@@ -28,3 +27,4 @@ var app = new Vue({
         }
     },
 })
+
