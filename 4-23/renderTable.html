@@ -11,7 +11,9 @@
 
 <body>
     <div id="app" v-cloak>
-        <v-table :data="data" :columns="columns" :width="width"></v-table>
+        <v-table :data="data" :columns="columns" :width="width">
+
+        </v-table>
         <button @click="handleAddData">添加数据</button>
         <input type="text" v-model="name" placeholder="添加名字" />
         <input type="text" v-model="age" placeholder="添加年龄" />
@@ -19,6 +21,7 @@
     <script src="../vue.js"></script>
     <script src="table.js"></script>
     <script src="index.js"></script>
+
 </body>
 
 </html>

@@ -3,7 +3,8 @@ var app = new Vue({
     data: {
         columns: [{
             title: "姓名",
-            key: "name"
+            key: "name",
+            sortable: false
         }, {
             title: "年龄",
             key: "age",
@@ -37,7 +38,7 @@ var app = new Vue({
     methods: {
         handleAddData: function () {
             this.data.push({
-                name:this.name,
+                name: this.name,
                 age: this.age,
                 birthday: '1998-09-11',
                 address: "北京市"

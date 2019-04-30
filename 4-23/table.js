@@ -1,16 +1,37 @@
 Vue.component('vTable', {
-    //内容
+    template: `<table>
+    <colgroup>
+        <col :style="styles"></col> <col :style="styles"></col>
+    </colgroup>
+    <thead>
+            <tr>
+                <th v-for="(item,index) in currentColumns">
+                {{item.title}}
+                <span v-if="isShown(item)">
+                    <a :class="activeClass == 1 ? 'on':''" @click="handleSortByAsc(index)">↑</a>
+                    <a :class="activeClass == 2 ? 'on':''"  @click="handleSortByDesc(index)">↓</a>
+                </span>
+                </th>
+            </tr>
+    </thead> 
+    <tbody>
+        <tr  v-for="item in currentData" >
+            <td>{{item.name}}</td>
+            <td>{{item.age}}</td>
+        </tr>
+    </tbody>
+    </table>`,
     props: {
         columns: {
             type: Array,
-            defalut: function () {
-                return [];
+            default: function () {
+                return
             }
         },
         data: {
             type: Array,
-            defalut: function () {
-                return [];
+            default: function () {
+                return
             }
         },
         width: {
@@ -24,7 +45,11 @@ Vue.component('vTable', {
         return {
             currentColumns: [],
             currentData: [],
-            currentWidth: []
+            currentWidth: [],
+            activeClass: -1,
+            styles: {
+                width: 200 + "px"
+            }
         }
     },
     methods: {
@@ -38,6 +63,7 @@ Vue.component('vTable', {
             this.currentData.sort(function (a, b) {
                 return a[key] > b[key] ? 1 : -1;
             });
+            this.activeClass = 1;
         },
         handleSortByDesc: function (index) {
             var key = this.currentColumns[index].key;
@@ -49,6 +75,7 @@ Vue.component('vTable', {
             this.currentData.sort(function (a, b) {
                 return a[key] < b[key] ? 1 : -1;
             });
+            this.activeClass = 2;
         },
         makeColumns: function () {
             this.currentColumns = this.columns.map(function (col, index) {
@@ -57,7 +84,7 @@ Vue.component('vTable', {
                 col._sortType = 'normal';
                 col._index = index;
                 return col;
-            })
+            });
         },
         makeData: function () {
             this.currentData = this.data.map(function (row, index) {
@@ -67,11 +94,19 @@ Vue.component('vTable', {
         },
         makeWidth: function () {
             this.currentWidth = this.width.map(function (width, index) {
-                width._index = index;
-                // console.log(width._index)
-
                 return width;
             });
+        },
+        isShown: function (item) {
+            let flag = item.sortable;
+            return flag;
+        },
+        changeClass: function (item) {
+            if (item._sortType === 'asc' || item._sortType === 'desc') {
+                return "on"
+            } else {
+                return;
+            }
         }
     },
     mounted() {
@@ -79,70 +114,6 @@ Vue.component('vTable', {
         this.makeColumns();
         this.makeData();
         this.makeWidth();
-
-    },
-    render: function (h) {
-        var _this = this;
-        var ths = [];
-        this.currentColumns.forEach(function (col, index) {
-            if (col.sortable) {
-                ths.push(h('th', [
-                    h('span', col.title),
-                    //升序
-                    h('a', {
-                        class: {
-                            on: col._sortType === 'asc'
-                        },
-                        on: {
-                            click: function () {
-                                _this.handleSortByAsc(index)
-                            }
-                        }
-                    }, '↑'),
-                    //降序
-                    h('a', {
-                        class: {
-                            on: col._sortType === 'desc'
-                        },
-                        on: {
-                            click: function () {
-                                _this.handleSortByDesc(index)
-                            }
-                        }
-                    }, '↓'),
-                ]));
-            } else {
-                ths.push(h('th', col.title));
-            }
-        })
-
-
-
-        var trs = [];
-        this.currentData.forEach(function (row) {
-            var tds = [];
-            _this.currentColumns.forEach(function (cell) {
-                tds.push(h('td', row[cell.key]));
-            });
-            trs.push(h('tr', tds));
-        });
-
-
-        var cols = [];
-
-        this.currentWidth.forEach(function (width, index) {
-            cols.push(h('col', {
-                domProps: {
-                    width: width
-                }
-            }));
-        });
-
-        return h('table', [
-            h('colgroup', cols),
-            h('thead', [h('tr', ths)]),
-            h('tbody', trs)
-        ]);
     },
     watch: {
         data: function () {
